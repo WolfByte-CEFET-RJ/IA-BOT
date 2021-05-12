@@ -1,6 +1,6 @@
 import numpy as np
 
-class aF: # aF por causa de Activation Function
+class AF: # aF por causa de Activation Function
 
     @staticmethod
     def sigmoid(x): 
