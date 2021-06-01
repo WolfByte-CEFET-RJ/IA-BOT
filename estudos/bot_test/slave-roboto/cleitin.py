@@ -1,4 +1,5 @@
 import logging
+from ttk import passwd
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, InputFile
 from telegram.ext import (
@@ -96,7 +97,7 @@ def cancel_cmd(update: Update, _: CallbackContext) -> int:
 
 def main() -> None:
     # Create the Updater and pass it your bot's token.
-    updater = Updater("1689391808:AAF7bUoyfAuGgSOnLPjZdL2768shC1h6Xjc")
+    updater = Updater(passwd())
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
