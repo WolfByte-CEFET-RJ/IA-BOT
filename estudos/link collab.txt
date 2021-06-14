@@ -1,0 +1,8 @@
+Estudo Estrutura de uma rede:
+https://colab.research.google.com/drive/16HQvI42janaQJsQRbwjRu8mQFSBK96JR?usp=sharing
+
+Estudo Activation Functions:
+https://colab.research.google.com/drive/1OvPUkGG7-IY6LrclaJqy7t0zbvyFU8f_?usp=sharing
+
+Estudo Loss Functions:
+https://colab.research.google.com/drive/1acDTJKAif6Kje3Wev6o3j1JmBC1PczSb?usp=sharing
