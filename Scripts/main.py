@@ -30,14 +30,33 @@ class Layer_Dense():
         
 
 #importando dataset
-previsores = pd.read_csv('entradas_breast.csv')
-classe = pd.read_csv('saidas_breast.csv')
+entradas = pd.read_csv('entradas_breast.csv')
+saidas = pd.read_csv('saidas_breast.csv')
+
+
+#transformando em array do numpy
+previsores_np = np.array(entradas)
+classes_np = np.array(saidas)
+
 
 #normalização
-previsores = (previsores-previsores.min())/(previsores.max()-previsores.min()) 
+previsores = (previsores_np-previsores_np.min())/(previsores_np.max()-previsores_np.min()) 
+
 
 #separando entre treino e teste
-previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores,classe, test_size=0.25)
+previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores_np,classes_np, test_size=0.25)
 
 
+#parametros
+qtt_treino = len(previsores_treinamento)
+qtt_test = len(previsores_teste)
+epochs = 50000
+learning_rate = 0.1
+erros = []
+erros2 = []
 
+
+#criando as camadas
+inp1 = Layer_Dense(30, 16)
+inp2 = Layer_Dense(16, 16)
+inp3 = Layer_Dense(16, 1)
