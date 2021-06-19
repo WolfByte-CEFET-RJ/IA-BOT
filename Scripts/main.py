@@ -30,8 +30,8 @@ class Layer_Dense():
         
 
 #importando dataset
-entradas = pd.read_csv('entradas_breast.csv')
-saidas = pd.read_csv('saidas_breast.csv')
+entradas = pd.read_csv('../Dataset/entradas_breast.csv')
+saidas = pd.read_csv('../Dataset/saidas_breast.csv')
 
 
 #transformando em array do numpy
@@ -50,7 +50,7 @@ previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = tra
 #parametros
 qtt_treino = len(previsores_treinamento)
 qtt_test = len(previsores_teste)
-epochs = 50000
+epochs = 5000
 learning_rate = 0.1
 erros = []
 erros2 = []
@@ -60,3 +60,18 @@ erros2 = []
 inp1 = Layer_Dense(30, 16)
 inp2 = Layer_Dense(16, 16)
 inp3 = Layer_Dense(16, 1)
+
+#feedforward
+for epocas in range(epochs + 1):
+    inp1.forward(previsores_treinamento)
+    camada_oculta1 = sigmoid(inp1.output)
+
+    inp2.forward(camada_oculta1)
+    camada_oculta2 = sigmoid(inp2.output)
+
+    inp3.forward(camada_oculta2)
+    camada_saida = sigmoid(inp3.output)
+
+    custo = bce(classe_treinamento, camada_saida, qtt_treino, False)
+    erros.append(custo)
+    print(custo)
