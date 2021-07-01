@@ -60,23 +60,20 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
 entradas = pd.read_csv('../Dataset/entradas_breast.csv')
 saidas = pd.read_csv('../Dataset/saidas_breast.csv')
 
+#normalização
+entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
 
 #transformando em array do numpy
-previsores_np = np.array(entradas)
-classes_np = np.array(saidas)
-
-
-#normalização
-previsores = (previsores_np-previsores_np.min())/(previsores_np.max()-previsores_np.min()) 
-
+dataset = np.array(entradas)
+dataset_saidas = np.array(saidas)
 
 #separando entre treino e teste
-previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores_np,classes_np, test_size=0.25)
+train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/5)
 
 
 #parametros
-qtt_treino = len(previsores_treinamento)
-qtt_test = len(previsores_teste)
+qtt_treino = len(train)
+qtt_test = len(test)
 epochs = 5000
 learning_rate = 0.1
 erros = []
@@ -86,19 +83,23 @@ erros2 = []
 #criando as camadas
 inp1 = Layer_Dense(30, 16)
 inp2 = Layer_Dense(16, 16)
-inp3 = Layer_Dense(16, 1)
+inp3 = Layer_Dense(16,8)
+inp4 = Layer_Dense(8, 1)
 
 #feedforward
 for epocas in range(epochs + 1):
-    inp1.forward(previsores_treinamento)
+    inp1.forward(train)
     camada_oculta1 = sigmoid(inp1.output)
 
     inp2.forward(camada_oculta1)
     camada_oculta2 = sigmoid(inp2.output)
 
     inp3.forward(camada_oculta2)
-    camada_saida = sigmoid(inp3.output)
+    camada_oculta3 = sigmoid(inp3.output)
 
-    custo = bce(classe_treinamento, camada_saida, qtt_treino, False)
+    inp4.forward(camada_oculta3)
+    camada_saida = sigmoid(inp4.output)
+
+    custo = bce(train_saidas, camada_saida, qtt_treino, False)
     erros.append(custo)
     print(custo)
