@@ -11,7 +11,6 @@ def bce(y, y_pred, t, derivative=False):
     return -np.mean(y * np.log(abs(y - y_pred)) +
                     (1 - y) * np.log(abs(1 - y_pred)))
 
-    
 
 #funções de ativação
 def sigmoid(x):
@@ -22,6 +21,7 @@ def derivada_sigmoid(x):
 
 def relu(x):
     return np.maximun(0, x)
+
 
 #classe para criar uma camada
 class Layer_Dense():
@@ -60,12 +60,15 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
 entradas = pd.read_csv('../Dataset/entradas_breast.csv')
 saidas = pd.read_csv('../Dataset/saidas_breast.csv')
 
+
 #normalização
 entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
+
 
 #transformando em array do numpy
 dataset = np.array(entradas)
 dataset_saidas = np.array(saidas)
+
 
 #separando entre treino e teste
 train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/5)
@@ -86,8 +89,10 @@ inp2 = Layer_Dense(16, 16)
 inp3 = Layer_Dense(16,8)
 inp4 = Layer_Dense(8, 1)
 
-#feedforward
+
+#calculo das previsoes
 for epocas in range(epochs + 1):
+    #feedforward
     inp1.forward(train)
     camada_oculta1 = sigmoid(inp1.output)
 
@@ -101,5 +106,44 @@ for epocas in range(epochs + 1):
     camada_saida = sigmoid(inp4.output)
 
     custo = bce(train_saidas, camada_saida, qtt_treino, False)
+    result = test_predict(test,test_saidas,inp1.weights,inp2.weights,inp3.weights,inp4.weights,inp1.biases,inp2.biases,inp3.biases,inp4.biases)
     erros.append(custo)
-    print(custo)
+    erros2.append(result)
+    print("epoca: %d/%d erro_train: %f erro_test: %f"%(epocas,epochs,custo,result))
+    
+    #backpropagation
+    derivada_saida = bce(train_saidas,camada_saida,qtt_treino,True)
+    
+    dinp4 = derivada_sigmoid(inp4.output) * derivada_saida # dy =  da(y) * df(y')
+    derivada_oculta3 = np.dot(dinp4,inp4.weights.T) # dx = w.T * dy 
+    d_pesos4 = np.dot(dinp4.T,camada_oculta3) # dw = x * dy.T
+    d_pesos4 +=  (1.0/train_saidas.shape[0] * inp4.weights).T
+    d_bias4 = 1.0 * dinp4.sum(axis=0,keepdims=True) # db = sum(dy) 
+    
+    dinp3 = derivada_sigmoid(inp3.output) * derivada_oculta3
+    derivada_oculta2 = np.dot(dinp3,inp3.weights.T)
+    d_pesos3 = np.dot(dinp3.T,camada_oculta2)
+    d_pesos3 += (1.0/train_saidas.shape[0] * inp3.weights).T
+    d_bias3 = 1.0 * dinp3.sum(axis=0,keepdims=True)
+    
+    dinp2 = derivada_sigmoid(inp2.output) * derivada_oculta2
+    derivada_oculta1 = np.dot(dinp2,inp2.weights.T)
+    d_pesos2 = np.dot(dinp2.T,camada_oculta1)
+    d_pesos2 += (1.0/train_saidas.shape[0] * inp2.weights).T
+    d_bias2 = 1.0 * dinp2.sum(axis=0,keepdims=True)
+    
+    dinp1 = derivada_sigmoid(inp1.output) * derivada_oculta1
+    derivada_entrada = np.dot(dinp1,inp1.weights.T)
+    d_pesos1 = np.dot(dinp1.T,train)
+    d_pesos1 += (1.0/train_saidas.shape[0] * inp1.weights).T
+    d_bias1 = 1.0 * dinp1.sum(axis=0,keepdims=True)
+    
+    inp4.weights = inp4.weights + (-learning_rate * d_pesos4.T)
+    inp3.weights = inp3.weights + (-learning_rate * d_pesos3.T)
+    inp2.weights = inp2.weights + (-learning_rate * d_pesos2.T)
+    inp1.weights = inp1.weights + (-learning_rate * d_pesos1.T)
+    
+    inp4.biases = inp4.biases - learning_rate * d_bias4
+    inp3.biases = inp3.biases - learning_rate * d_bias3
+    inp2.biases = inp2.biases - learning_rate * d_bias2
+    inp1.biases = inp1.biases - learning_rate * d_bias1
