@@ -11,10 +11,14 @@ def bce(y, y_pred, t, derivative=False):
     return -np.mean(y * np.log(abs(y - y_pred)) +
                     (1 - y) * np.log(abs(1 - y_pred)))
 
+    
 
 #funções de ativação
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
+
+def derivada_sigmoid(x):
+    return sigmoid(x)*(1-sigmoid(x))
 
 def relu(x):
     return np.maximun(0, x)
@@ -28,6 +32,29 @@ class Layer_Dense():
     def forward(self, inputs):
         self.output = np.dot(inputs, self.weights) + self.biases
         
+
+#test predict
+def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
+    inp1 = np.dot(teste,pesos1) + bias1
+    camada_oculta1 = sigmoid(inp1)
+
+    inp2 = np.dot(camada_oculta1,pesos2) + bias2
+    camada_oculta2 = sigmoid(inp2)
+
+    inp3 = np.dot(camada_oculta2,pesos3) + bias3
+    camada_oculta3 = sigmoid(inp3)
+
+    inp4 = np.dot(camada_oculta3,pesos4) + bias4
+    camada_saida = sigmoid(inp4)
+    
+    custo = bce(teste_saidas,camada_saida,qtt_test,False)
+    
+    if prt_saida:
+        print("erro: %.10f"%(custo))
+        print(camada_saida)
+    
+    return custo
+
 
 #importando dataset
 entradas = pd.read_csv('../Dataset/entradas_breast.csv')
