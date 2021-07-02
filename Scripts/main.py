@@ -147,3 +147,38 @@ for epocas in range(epochs + 1):
     inp3.biases = inp3.biases - learning_rate * d_bias3
     inp2.biases = inp2.biases - learning_rate * d_bias2
     inp1.biases = inp1.biases - learning_rate * d_bias1
+
+result = test_predict(test,test_saidas,inp1.weights,inp2.weights,inp3.weights,inp4.weights,inp1.biases,inp2.biases,inp3.biases,inp4.biases)
+
+#plotando gráfico
+plt.plot(erros,label="train")
+plt.plot(erros2, label="test")
+plt.legend()
+plt.show()
+
+#calculando taxa de acerto
+def predict (test,funcao_ativacao):
+    
+    if funcao_ativacao == "sigmoid":
+        f = sigmoid
+        
+    camada_oculta1 = f(np.dot(test,w_layer1) + b_layer1)
+    camada_oculta2 = f(np.dot(camada_oculta1,w_layer2) + b_layer2)
+    camada_oculta3 = f(np.dot(camada_oculta2,w_layer3) + b_layer3)
+
+    return f(np.dot(camada_oculta3,w_layer4) + b_layer4)
+
+
+w_layer1, w_layer2, w_layer3, w_layer4, b_layer1, b_layer2, b_layer3, b_layer4 = inp1.weights,inp2.weights,inp3.weights,inp4.weights,inp1.biases,inp2.biases,inp3.biases,inp4.biases
+
+saidas_real = dataset_saidas
+saidas = predict(dataset,"sigmoid")
+saidas = np.where(saidas >= 0.8,1,0)
+
+acertos = 0
+for y1,y2 in zip(saidas,saidas_real):
+    if y1 == y2:
+        acertos += 1
+
+print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
+
