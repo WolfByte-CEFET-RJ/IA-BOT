@@ -26,7 +26,7 @@ def relu(x):
 #classe para criar uma camada
 class Layer_Dense():
     def __init__(self, n_inputs, n_neurons):
-        self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)
+        self.weights = 2 * np.random.random((n_inputs, n_neurons)) -1
         self.biases = np.zeros((1, n_neurons))
 
     def forward(self, inputs):
@@ -78,7 +78,7 @@ train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas
 qtt_treino = len(train)
 qtt_test = len(test)
 epochs = 5000
-learning_rate = 0.1
+learning_rate = 0.5
 erros = []
 erros2 = []
 
