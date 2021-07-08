@@ -33,27 +33,27 @@ class Layer_Dense():
         self.output = np.dot(inputs, self.weights) + self.biases
         
 
-#test predict
-def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
-    inp1 = np.dot(teste,pesos1) + bias1
-    camada_oculta1 = sigmoid(inp1)
-
-    inp2 = np.dot(camada_oculta1,pesos2) + bias2
-    camada_oculta2 = sigmoid(inp2)
-
-    inp3 = np.dot(camada_oculta2,pesos3) + bias3
-    camada_oculta3 = sigmoid(inp3)
-
-    inp4 = np.dot(camada_oculta3,pesos4) + bias4
-    camada_saida = sigmoid(inp4)
+    #test predict
+    def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
+        inp1 = np.dot(teste,pesos1) + bias1
+        camada_oculta1 = sigmoid(inp1)
     
-    custo = bce(teste_saidas,camada_saida,qtt_test,False)
+        inp2 = np.dot(camada_oculta1,pesos2) + bias2
+        camada_oculta2 = sigmoid(inp2)
     
-    if prt_saida:
-        print("erro: %.10f"%(custo))
-        print(camada_saida)
+        inp3 = np.dot(camada_oculta2,pesos3) + bias3
+        camada_oculta3 = sigmoid(inp3)
     
-    return custo
+        inp4 = np.dot(camada_oculta3,pesos4) + bias4
+        camada_saida = sigmoid(inp4)
+        
+        custo = bce(teste_saidas,camada_saida,qtt_test,False)
+        
+        if prt_saida:
+            print("erro: %.10f"%(custo))
+            print(camada_saida)
+        
+        return custo
 
 
 #importando dataset
