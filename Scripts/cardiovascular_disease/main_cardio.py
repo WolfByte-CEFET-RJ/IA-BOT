@@ -59,8 +59,8 @@ base = (base-base.min())/(base.max()-base.min())
 base.describe()
 
 #separando o database em entrada e saida
-entradas = base.iloc[:,1:12].values
-saidas = base.iloc[:, 12].values
+entradas = base.iloc[:1000,1:12].values
+saidas = base.iloc[:1000, 11:12].values
 
 #transformando em array do numpy
 dataset = np.array(entradas)
