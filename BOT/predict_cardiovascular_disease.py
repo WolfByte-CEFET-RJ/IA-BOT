@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 #Mude para seu path
-path_pesos = "C:\projetos\IA-BOT\Breast Cancer\Pesos"
-path_bias = "C:\projetos\IA-BOT\Breast Cancer\Bias"
+path_pesos = "C:\projetos\IA-BOT\Cardiovascular Disease\Pesos"
+path_bias = "C:\projetos\IA-BOT\Cardiovascular Disease\Bias"
 
 entradas = pd.read_csv('Dataset/cardiovascular_disease/cardiovascularReal.txt')
 entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
