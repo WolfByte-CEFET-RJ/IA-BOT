@@ -169,5 +169,25 @@ for y1,y2 in zip(saidas,saidas_real):
 
 print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
 
+#salvando os pesos e os biases
+path = 'C:\projetos\IA-BOT/Cardiovascular Disease' #mudar para seu path
+resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
+
+if resposta == "S":
+    np.savetxt(path + "Pesos\\pesos1.txt", inp1.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\pesos2.txt", inp2.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\pesos3.txt", inp3.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\pesos4.txt", inp4.weights, delimiter=", ")
+    
+    np.savetxt(path + "Bias\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\bias4.txt", inp4.biases, delimiter=", ")
+    print("Dump dos pesos e bias concluido")
+    
+else: 
+    print("Pesos e Bias não foram salvos")
+    
+
 
    
