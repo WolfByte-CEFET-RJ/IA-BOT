@@ -1,5 +1,6 @@
 import logging
 from ttk import passwd
+from text_input import *
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, InputFile
 from telegram.ext import (
@@ -20,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 
 # Start of main flow -------------------------------------------------------
-SELECT_DISEASE, SELECT_INPUT_TYPE, FILE_INPUT_ANSWER = range(3)
+# Creating states
+SELECT_DISEASE, SELECT_INPUT_TYPE, FILE_INPUT_ANSWER, TEXT_INPUT_ANSWER, TEXT_INPUT_ANSWER1, TEXT_INPUT_ANSWER2, TEXT_INPUT_ANSWER3, TEXT_INPUT_ANSWER4, TEXT_INPUT_ANSWER5, TEXT_INPUT_ANSWER6, TEXT_INPUT_ANSWER7, TEXT_INPUT_ANSWER8, TEXT_INPUT_ANSWER9, TEXT_INPUT_VERIFICATION, TEXT_INPUT_FINISH = range(15)
 
 def start(update: Update, _: CallbackContext) -> int:
     disease_reply_keyboard = [['Main Yasuo', 'Main Yuumi', 'Otaku']]
@@ -35,6 +37,7 @@ def start(update: Update, _: CallbackContext) -> int:
 
     return SELECT_DISEASE
 
+
 def select_disease(update: Update, context: CallbackContext) -> int:
     # Saving disease in context
     text = update.message.text
@@ -44,7 +47,7 @@ def select_disease(update: Update, context: CallbackContext) -> int:
         f'Você é {text.lower()}?? Ew'
     )
 
-    input_type_reply_keyboard = [['Texto', 'Áudio', 'Arquivo (excel)']]
+    input_type_reply_keyboard = [['Texto', 'Áudio', 'Arquivo CSV']]
     update.message.reply_text(
         f'Bem, escolha o meio pelo qual prefere fornecer as informações, sr. {text.lower()}',
         reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
@@ -52,27 +55,62 @@ def select_disease(update: Update, context: CallbackContext) -> int:
 
     return SELECT_INPUT_TYPE
 
-def file_input(update: Update, _: CallbackContext) -> int:
-    file = open('tueh.csv')
 
-    update.message.reply_text('Preencha a tabela com as suas respostas')
-    update.message.reply_document(InputFile(file, 'tueh.csv'))
+def file_input(update: Update, _: CallbackContext) -> int:
+    file = open('questions.csv')
+
+    update.message.reply_text('Preencha a tabela com as suas respostas e envie o arquivo de volta')
+    update.message.reply_document(InputFile(file, 'Perguntas.csv'))
 
     return FILE_INPUT_ANSWER
 
+
 def file_input_answer(update: Update, context: CallbackContext) -> None:
-    """CSV answer"""
+    """
+        CSV answer
+    """
 
     # Loading user data
     user_data = context.user_data
     disease = user_data['disease']
 
-    # Resgate da informação de doença e mensagem de feedback
+    # Recovering user info (demo)
     update.message.reply_text(f'Informações sobre a sua doença: {disease.lower()} recebidas com sucesso')
 
     msg = update.message.document.get_file()
     msg.download()
     return ConversationHandler.END
+
+
+# Text input
+def text_input(update: Update, context: CallbackContext) -> int:
+    """
+        Start for capturing user info by text
+    """
+    update.message.reply_text(
+        'Farei várias perguntas para coletar as informações necessárias para a IA,' +
+        'peço que responda apenas com os dados pedidos.'
+    )
+
+    update.message.reply_text(
+        f'Sua idade (apenas o número):',
+    )
+
+    return TEXT_INPUT_ANSWER
+
+def text_input_finish(update: Update, context: CallbackContext) -> int:
+    """
+        FLW
+    """
+
+    update.message.reply_text(
+        f'Vlw flw',
+    )
+
+    return ConversationHandler.END
+
+def audio_input(update: Update, context: CallbackContext) -> int:
+    return 1
 
 # End of main flow -------------------------------------------------------
 
@@ -84,6 +122,7 @@ def help_cmd(update: Update, _: CallbackContext) -> None:
         'Use /cancel para cancelar a conversa'
     )
 
+
 def cancel_cmd(update: Update, _: CallbackContext) -> int:
     """Ends the conversation when the command /cancel is issued."""
     user = update.message.from_user
@@ -93,6 +132,7 @@ def cancel_cmd(update: Update, _: CallbackContext) -> int:
     )
 
     return ConversationHandler.END
+
 
 
 def main() -> None:
@@ -110,12 +150,75 @@ def main() -> None:
         states={
             SELECT_DISEASE: [MessageHandler(Filters.text & ~Filters.command, select_disease)],
             SELECT_INPUT_TYPE: [
-                MessageHandler(
-                    Filters.text & ~Filters.command, file_input
-                )
+                MessageHandler(Filters.regex('^Arquivo CSV$'), file_input),
+                MessageHandler(Filters.regex('^Texto$'), text_input),
+                MessageHandler(Filters.regex('^Áudio$'), audio_input)
             ],
             FILE_INPUT_ANSWER: [
                 MessageHandler(Filters.document & ~Filters.command, file_input_answer)
+            ],
+            TEXT_INPUT_ANSWER: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input0
+                )
+            ],
+            TEXT_INPUT_ANSWER1: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input1
+                )
+            ],
+            TEXT_INPUT_ANSWER2: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input2
+                )
+            ],
+            TEXT_INPUT_ANSWER3: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input3
+                )
+            ],
+            TEXT_INPUT_ANSWER4: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input4
+                )
+            ],
+            TEXT_INPUT_ANSWER5: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input5
+                )
+            ],
+            TEXT_INPUT_ANSWER6: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input6
+                )
+            ],
+            TEXT_INPUT_ANSWER7: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input7
+                )
+            ],
+            TEXT_INPUT_ANSWER8: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input8
+                )
+            ],
+            TEXT_INPUT_ANSWER9: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input9
+                )
+            ],
+            TEXT_INPUT_VERIFICATION: [
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input_verification
+                )
+            ],
+            TEXT_INPUT_FINISH: [
+                MessageHandler(
+                    Filters.regex('^Não$'), text_input
+                ),
+                MessageHandler(
+                    Filters.text & ~Filters.command, text_input_finish
+                )
             ]
         },
         fallbacks=[CommandHandler('cancel', cancel_cmd)],

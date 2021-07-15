@@ -1,0 +1,11 @@
+Idade,,Apenas o número
+Genero,,KEYBOARD:masculino ou feminino
+Altura,,Valor em cm (Exemplo: '175cm' seria um metro e setenta e cinco centímetros)
+Peso,,Somente kilos
+Pressão arterial sistólica,,
+Pressão arterial diastólica,,
+Colesterol,,KEYBOARD: 1: normal, 2: acima do normal, 3: muito acima do normal 
+Glicose,,KEYBOARD: sim ou não 1: normal, 2: acima do normal, 3: muito acima do normal 
+Fumante,,KEYBOARD: sim ou não
+Ingestao de alcool,,KEYBOARD: sim ou não
+Atividade física,,KEYBOARD: sim ou não
