@@ -33,32 +33,32 @@ class Layer_Dense():
         self.output = np.dot(inputs, self.weights) + self.biases
         
 
-    #test predict
-    def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
-        inp1 = np.dot(teste,pesos1) + bias1
-        camada_oculta1 = sigmoid(inp1)
+#test predict
+def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
+    inp1 = np.dot(teste,pesos1) + bias1
+    camada_oculta1 = sigmoid(inp1)
+
+    inp2 = np.dot(camada_oculta1,pesos2) + bias2
+    camada_oculta2 = sigmoid(inp2)
+
+    inp3 = np.dot(camada_oculta2,pesos3) + bias3
+    camada_oculta3 = sigmoid(inp3)
+
+    inp4 = np.dot(camada_oculta3,pesos4) + bias4
+    camada_saida = sigmoid(inp4)
     
-        inp2 = np.dot(camada_oculta1,pesos2) + bias2
-        camada_oculta2 = sigmoid(inp2)
+    custo = bce(teste_saidas,camada_saida,qtt_test,False)
     
-        inp3 = np.dot(camada_oculta2,pesos3) + bias3
-        camada_oculta3 = sigmoid(inp3)
+    if prt_saida:
+        print("erro: %.10f"%(custo))
+        print(camada_saida)
     
-        inp4 = np.dot(camada_oculta3,pesos4) + bias4
-        camada_saida = sigmoid(inp4)
-        
-        custo = bce(teste_saidas,camada_saida,qtt_test,False)
-        
-        if prt_saida:
-            print("erro: %.10f"%(custo))
-            print(camada_saida)
-        
-        return custo
+    return custo
 
 
 #importando dataset
-entradas = pd.read_csv('../Dataset/entradas_breast.csv')
-saidas = pd.read_csv('../Dataset/saidas_breast.csv')
+entradas = pd.read_csv('entradas_breast.csv')
+saidas = pd.read_csv('saidas_breast.csv')
 
 
 #normalização
@@ -71,14 +71,14 @@ dataset_saidas = np.array(saidas)
 
 
 #separando entre treino e teste
-train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/5)
+train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/6)
 
 
 #parametros
 qtt_treino = len(train)
 qtt_test = len(test)
-epochs = 5000
-learning_rate = 0.5
+epochs = 1500
+learning_rate = 1
 erros = []
 erros2 = []
 
@@ -114,7 +114,9 @@ for epocas in range(epochs + 1):
     #backpropagation
     derivada_saida = bce(train_saidas,camada_saida,qtt_treino,True)
     
-    dinp4 = derivada_sigmoid(inp4.output) * derivada_saida # dy =  da(y) * df(y')
+    testedoido = derivada_sigmoid(inp4.output)
+    
+    dinp4 = testedoido * derivada_saida # dy =  da(y) * df(y')
     derivada_oculta3 = np.dot(dinp4,inp4.weights.T) # dx = w.T * dy 
     d_pesos4 = np.dot(dinp4.T,camada_oculta3) # dw = x * dy.T
     d_pesos4 +=  (1.0/train_saidas.shape[0] * inp4.weights).T
@@ -151,11 +153,12 @@ for epocas in range(epochs + 1):
 result = test_predict(test,test_saidas,inp1.weights,inp2.weights,inp3.weights,inp4.weights,inp1.biases,inp2.biases,inp3.biases,inp4.biases)
 
 #plotando gráfico
+'''
 plt.plot(erros,label="train")
 plt.plot(erros2, label="test")
 plt.legend()
 plt.show()
-
+'''
 #calculando taxa de acerto
 def predict (test,funcao_ativacao):
     
@@ -182,12 +185,12 @@ for y1,y2 in zip(saidas,saidas_real):
 
 print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
 
+resultado = (acertos/len(saidas)*100)
 
-#salvando os pesos e os biases
 path = 'C:\projetos\IA-BOT/Breast Cancer/' #mudar para seu path
-resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
+#resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
 
-if resposta == "S":
+if resultado >= 95.96:
     np.savetxt(path + "Pesos\\pesos1.txt", inp1.weights, delimiter=", ")
     np.savetxt(path + "Pesos\\pesos2.txt", inp2.weights, delimiter=", ")
     np.savetxt(path + "Pesos\\pesos3.txt", inp3.weights, delimiter=", ")
@@ -201,5 +204,4 @@ if resposta == "S":
     
 else: 
     print("Pesos e Bias não foram salvos")
-    
 
