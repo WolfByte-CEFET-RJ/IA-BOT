@@ -2,8 +2,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-base = pd.read_csv("chronic_kidney.csv")
-
 
 #funções de custo
 def bce(y, y_pred, t, derivative=False):
@@ -32,7 +30,8 @@ class Layer_Dense():
         self.output = np.dot(inputs, self.weights) + self.biases
         
 #test predict
-def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias3,bias4,prt_saida=False):
+def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,
+                 bias3,bias4,prt_saida=False):
     inp1 = np.dot(teste,pesos1) + bias1
     camada_oculta1 = sigmoid(inp1)
 
@@ -53,8 +52,8 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
 
     return custo
 
-
-
+#importando Dataset
+base = pd.read_csv("../../Dataset/chronic_kidney/chronic_kidney.csv")
 
 #normalizando os dados
 base = (base-base.min())/(base.max()-base.min())
@@ -174,30 +173,25 @@ print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
 
 resultado = (acertos/len(saidas)*100)
 
-path = 'C:\projetos\IA-BOT/Chronic Kidney/' #mudar para seu path
-#resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
+path = 'C:\projetos\IA-BOT/' #mudar para seu path
+resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
 
 
-if resultado > 98.75:
-    np.savetxt(path + "Pesos\\pesos1.txt", inp1.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos2.txt", inp2.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos3.txt", inp3.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos4.txt", inp4.weights, delimiter=", ")
+if resposta == "S":
+    np.savetxt(path + "Pesos\\chronic_kidney\\pesos1.txt", inp1.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\chronic_kidney\\pesos2.txt", inp2.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\chronic_kidney\\pesos3.txt", inp3.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\chronic_kidney\\pesos4.txt", inp4.weights, delimiter=", ")
     
-    np.savetxt(path + "Bias\\bias1.txt", inp1.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias2.txt", inp2.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias3.txt", inp3.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias4.txt", inp4.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\chronic_kidney\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\chronic_kidney\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\chronic_kidney\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\chronic_kidney\\bias4.txt", inp4.biases, delimiter=", ")
     print("Dump dos pesos e bias concluido")
     
 else: 
     print("Pesos e Bias não foram salvos")
 
-    
-
-
-#path_pesos = 'C:\projetos\IA-BOT/Chronic Kidney' #mudar para seu path
-#path_bias = 'C:\projetos\IA-BOT/Chronic Kidney' #mudar para seu path
 
 
 

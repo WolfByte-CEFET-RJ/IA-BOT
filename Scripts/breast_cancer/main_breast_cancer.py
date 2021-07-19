@@ -57,8 +57,8 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
 
 
 #importando dataset
-entradas = pd.read_csv('entradas_breast.csv')
-saidas = pd.read_csv('saidas_breast.csv')
+entradas = pd.read_csv('../../Dataset/breast_cancer/entradas_breast.csv')
+saidas = pd.read_csv('../../Dataset/breast_cancer/saidas_breast.csv')
 
 
 #normalização
@@ -153,12 +153,12 @@ for epocas in range(epochs + 1):
 result = test_predict(test,test_saidas,inp1.weights,inp2.weights,inp3.weights,inp4.weights,inp1.biases,inp2.biases,inp3.biases,inp4.biases)
 
 #plotando gráfico
-'''
+
 plt.plot(erros,label="train")
 plt.plot(erros2, label="test")
 plt.legend()
 plt.show()
-'''
+
 #calculando taxa de acerto
 def predict (test,funcao_ativacao):
     
@@ -187,21 +187,23 @@ print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
 
 resultado = (acertos/len(saidas)*100)
 
-path = 'C:\projetos\IA-BOT/Breast Cancer/' #mudar para seu path
-#resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
+path = 'C:\projetos\IA-BOT/' #mudar para seu path
+resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
 
-if resultado >= 95.96:
-    np.savetxt(path + "Pesos\\pesos1.txt", inp1.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos2.txt", inp2.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos3.txt", inp3.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos4.txt", inp4.weights, delimiter=", ")
+if resposta == "S":
+    np.savetxt(path + "Pesos\\breast_cancer\\pesos1.txt", inp1.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\breast_cancer\\pesos2.txt", inp2.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\breast_cancer\\pesos3.txt", inp3.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\breast_cancer\\pesos4.txt", inp4.weights, delimiter=", ")
     
-    np.savetxt(path + "Bias\\bias1.txt", inp1.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias2.txt", inp2.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias3.txt", inp3.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias4.txt", inp4.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\breast_cancer\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\breast_cancer\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\breast_cancer\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\breast_cancer\\bias4.txt", inp4.biases, delimiter=", ")
     print("Dump dos pesos e bias concluido")
     
 else: 
     print("Pesos e Bias não foram salvos")
+    
+
 

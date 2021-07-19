@@ -51,7 +51,7 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
     return custo
 
 
-base = pd.read_csv("../Dataset/cardiovascular_disease/cardiovascular.txt")
+base = pd.read_csv("../../Dataset/cardiovascular_disease/cardiovascular.txt")
 
 #normalizando os dados
 base = (base-base.min())/(base.max()-base.min())
@@ -59,8 +59,8 @@ base = (base-base.min())/(base.max()-base.min())
 base.describe()
 
 #separando o database em entrada e saida
-entradas = base.iloc[:1000,1:12].values
-saidas = base.iloc[:1000, 11:12].values
+entradas = base.iloc[:,1:12].values
+saidas = base.iloc[:, 11:12].values
 
 #transformando em array do numpy
 dataset = np.array(entradas)
@@ -170,19 +170,19 @@ for y1,y2 in zip(saidas,saidas_real):
 print("Taxa de acerto %.2f"%(acertos/len(saidas)*100) +"%")
 
 #salvando os pesos e os biases
-path = 'C:\projetos\IA-BOT/Cardiovascular Disease' #mudar para seu path
+path = 'C:\projetos\IA-BOT/' #mudar para seu path
 resposta = input("Deseja fazer um Dump dos pesos e bias? S/N: ")
 
 if resposta == "S":
-    np.savetxt(path + "Pesos\\pesos1.txt", inp1.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos2.txt", inp2.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos3.txt", inp3.weights, delimiter=", ")
-    np.savetxt(path + "Pesos\\pesos4.txt", inp4.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\cardiovascular_disease\\pesos1.txt", inp1.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\cardiovascular_disease\\pesos2.txt", inp2.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\cardiovascular_disease\\pesos3.txt", inp3.weights, delimiter=", ")
+    np.savetxt(path + "Pesos\\cardiovascular_disease\\pesos4.txt", inp4.weights, delimiter=", ")
     
-    np.savetxt(path + "Bias\\bias1.txt", inp1.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias2.txt", inp2.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias3.txt", inp3.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\bias4.txt", inp4.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\cardiovascular_disease\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\cardiovascular_disease\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\cardiovascular_disease\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Bias\\cardiovascular_disease\\bias4.txt", inp4.biases, delimiter=", ")
     print("Dump dos pesos e bias concluido")
     
 else: 
