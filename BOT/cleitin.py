@@ -1,6 +1,5 @@
 import numpy as np
 from rede import breast_cancer_predict,cardio_disease_predict,chronic_kidney_predict
-import sys
 import logging
 from ttk import passwd
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
@@ -26,7 +25,15 @@ logger = logging.getLogger(__name__)
 
 
 # Start of main flow -------------------------------------------------------
-SELECT_DISEASE, TEXT_INPUT_ANSWER, TEXT_INPUT_ANSWER1, TEXT_INPUT_ANSWER2, TEXT_INPUT_ANSWER3, TEXT_INPUT_ANSWER4, TEXT_INPUT_ANSWER5, TEXT_INPUT_ANSWER6, TEXT_INPUT_ANSWER7, TEXT_INPUT_ANSWER8, TEXT_INPUT_ANSWER9, TEXT_INPUT_VERIFICATION, TEXT_INPUT_FINISH = range(13)
+SELECT_DISEASE, INPUT_ANSWER, INPUT_ANSWER1, INPUT_ANSWER2, \
+INPUT_ANSWER3, INPUT_ANSWER4, INPUT_ANSWER5, INPUT_ANSWER6, \
+INPUT_ANSWER7, INPUT_ANSWER8, INPUT_ANSWER9, INPUT_ANSWER10, \
+INPUT_ANSWER11, INPUT_ANSWER12, INPUT_ANSWER13, INPUT_ANSWER14, \
+INPUT_ANSWER15, INPUT_ANSWER16, INPUT_ANSWER17, INPUT_ANSWER18, \
+INPUT_ANSWER19, INPUT_ANSWER20, INPUT_ANSWER21, INPUT_ANSWER22, \
+INPUT_ANSWER23, INPUT_ANSWER24, INPUT_ANSWER25, INPUT_ANSWER26, \
+INPUT_ANSWER27, INPUT_ANSWER28, INPUT_ANSWER29, INPUT_ANSWER30, \
+INPUT_VERIFICATION, INPUT_FINISH = range(34) 
 
 def start(update: Update, _: CallbackContext) -> int:
     disease_reply_keyboard = [['Câncer de mama', 'Doença Cardiovascular', 'Doença renal crônica']]
@@ -44,19 +51,33 @@ def start(update: Update, _: CallbackContext) -> int:
 
     return SELECT_DISEASE
   
-def text_input(update: Update, context: CallbackContext) -> int:
-
-    update.message.reply_text(
-        'Farei várias perguntas para coletar as informações necessárias para a IA,' +
-        'peço que responda apenas com os dados pedidos.'
+def info_disease(update: Update, context: CallbackContext) -> int:
+    disease_reply_keyboard = [['Entendi']]
+    
+    text = update.message.text
+    context.user_data['disease'] = text
+    
+    if(context.user_data['disease'] == "Câncer de mama"):
+        update.message.reply_text(
+        'Para realizar a previsão sobre o câncer de mâma, precisarei de algumas '
+        'informações que descrevem as caracteristicas dos núcleos celulares ' +
+        'presentes nas imagens de diagnóstico. \n\n' +
+        'a) raio (média das distâncias do centro até pontos do perímetro) \n'
+        'b) textura (desvio padrão dos valores da escala de cinza) \n'
+        'c) perímetro \n'
+        'd) área \n'
+        'e) suavidade (variação local em comprimentos de raio) \n'
+        'f) compactação(perimetro^2 / area - 1.0) \n'
+        'g) concavidade(severidade das porções côncavas do contorno) \n'
+        'h) pontos côncavos(número de porções côncavas do contorno) \n'
+        'i) simetria \n'
+        'j) dimensão fractal("aproximação até a costa" - 1) \n',
+        reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
     
-    update.message.reply_text(
-        'Sua idade (apenas o número):',
-    )
-    return TEXT_INPUT_ANSWER
+    return INPUT_ANSWER
 
-def text_input_finish(update: Update, context: CallbackContext) -> int:
+def input_finish(update: Update, context: CallbackContext) -> int:
     
     update.message.reply_text(
         'Vlw flw',
@@ -90,14 +111,24 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("help", help_cmd))
 
     # Add conversation handler with states
-    conv_handler = cardio_handler(start,SELECT_DISEASE,text_input,TEXT_INPUT_ANSWER,
-                   text_input0,TEXT_INPUT_ANSWER1,text_input1,TEXT_INPUT_ANSWER2,
-                   text_input2,TEXT_INPUT_ANSWER3,text_input3,TEXT_INPUT_ANSWER4,
-                   text_input4,TEXT_INPUT_ANSWER5,text_input5,TEXT_INPUT_ANSWER6,
-                   text_input6,TEXT_INPUT_ANSWER7,text_input7,TEXT_INPUT_ANSWER8,
-                   text_input8,TEXT_INPUT_ANSWER9,text_input9,
-                   TEXT_INPUT_VERIFICATION,text_input_verification,TEXT_INPUT_FINISH,
-                   text_input_finish,cancel_cmd)
+    conv_handler = cardio_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
+                   input0,INPUT_ANSWER1,input1,INPUT_ANSWER2,
+                   input2,INPUT_ANSWER3,input3,INPUT_ANSWER4,
+                   input4,INPUT_ANSWER5,input5,INPUT_ANSWER6,
+                   input6,INPUT_ANSWER7,input7,INPUT_ANSWER8,
+                   input8,INPUT_ANSWER9,input9,INPUT_ANSWER10,
+                   input10,INPUT_ANSWER11,input11,INPUT_ANSWER12,
+                   input12,INPUT_ANSWER13,input13,INPUT_ANSWER14,
+                   input14,INPUT_ANSWER15,input15,INPUT_ANSWER16,
+                   input16,INPUT_ANSWER17,input17,INPUT_ANSWER18,
+                   input18,INPUT_ANSWER19,input19,INPUT_ANSWER20,
+                   input20,INPUT_ANSWER21,input21,INPUT_ANSWER22,
+                   input22,INPUT_ANSWER23,input23,INPUT_ANSWER24,
+                   input24,INPUT_ANSWER25,input25,INPUT_ANSWER26,
+                   input26,INPUT_ANSWER27,input27,INPUT_ANSWER28,
+                   input28,INPUT_ANSWER29,input29,INPUT_ANSWER30,
+                   input30,INPUT_VERIFICATION,input_verification,
+                   INPUT_FINISH,input_finish,cancel_cmd)
     dispatcher.add_handler(conv_handler)
 
     updater.start_polling()
