@@ -13,7 +13,7 @@ from telegram.ext import (
 )
 
 from conversation_handler.cardio_handler import cardio_handler
-from bot_questions.cardio_questions import *
+from bot_questions.questions import *
     
 
 # Enable logging
@@ -41,7 +41,8 @@ def start(update: Update, _: CallbackContext) -> int:
     user = update.effective_user
 
     update.message.reply_text(
-        f'Olá {user.first_name}, meu nome é Cleitin do SUS. Esse é um teste de integração com a rede:\n\n'
+        f'Olá {user.first_name}, meu nome é Cleitin do SUS. Eu sou capaz de'
+        'analisar as seguintes doenças:\n\n'
         'Câncer de mâma \n'
         'Doença cardiovascular \n'
         'Doença renal crônica \n'
@@ -74,6 +75,25 @@ def info_disease(update: Update, context: CallbackContext) -> int:
         'j) dimensão fractal("aproximação até a costa" - 1) \n',
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
+        
+    elif(context.user_data['disease'] == "Doença Cardiovascular"):
+         update.message.reply_text(
+        'Para realizar que eu possa analisar a existência de uma doença '
+        'cardiovascular, precisarei das seguinte informações: \n\n'
+        'a) Idade \n'
+        'b) Gênero \n'
+        'c) Altura \n'
+        'd) Peso \n'
+        'e) Pressão arterial sistólica \n'
+        'f) Pressão arterial diastólica \n'
+        'g) Colesterol \n'
+        'h) Glicose \n'
+        'i) Fumante \n'
+        'j) Ingestao de alcool \n'
+        'l) Atividade física',
+        reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
+    )
+        
     
     return INPUT_ANSWER
 
