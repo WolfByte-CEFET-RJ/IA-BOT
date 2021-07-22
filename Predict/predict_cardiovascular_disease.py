@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 
 #Mude para seu path
-path_pesos = "C:\projetos\IA-BOT\Pesos/cardiovascular_disease"
-path_bias = "C:\projetos\IA-BOT\Bias/cardiovascular_disease"
+path_pesos = "C:/Users/andre/Documents/GitHub/IA-BOT/Pesos/cardiovascular_disease"
+path_bias = "C:/Users/andre/Documents/GitHub/IA-BOT/Biases/cardiovascular_disease"
 
 entradas = pd.read_csv('../Dataset/cardiovascular_disease/cardiovascular.txt')
+entradas = np.array(entradas)
 entradas = entradas.iloc[:1000,1:12].values
 entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
 

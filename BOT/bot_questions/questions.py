@@ -289,10 +289,10 @@ def input10(update: Update, context: CallbackContext) -> int:
     
         input_type_reply_keyboard = [['Sim', 'Não']]
         update.message.reply_text(
-        'Pratica atividades físicas? :',
+        'Pratica atividades físicas?',
         reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
-        return INPUT_FINISH
+        return INPUT_VERIFICATION
     
     elif(context.user_data['disease'] == "Doença Renal Crônica"):
         context.user_data['Hemo'] = text
@@ -333,7 +333,7 @@ def input12(update: Update, context: CallbackContext) -> int:
         context.user_data['Rbcc'] = text
         input_type_reply_keyboard = [['Sim', 'Não']],
         update.message.reply_text(
-        'Você tem hipertensão?: ', 
+        'Você tem hipertensão? ', 
         reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
         return INPUT_FINISH
@@ -542,32 +542,3 @@ def input30(update: Update, context: CallbackContext) -> int:
     return INPUT_FINISH
 
 
-
-def input_verification(update: Update, context: CallbackContext) -> int:
-
-    text = update.message.text
-    context.user_data['atividadefisica'] = text
-
-    respostas = {
-        'idade': context.user_data['idade'],
-        'genero': context.user_data['genero'],
-        'altura': context.user_data['altura'],
-        'peso': context.user_data['peso'],
-        'pressão': context.user_data['sistolica'],
-        'pressão2': context.user_data['diastolica'],
-        'colesterol': context.user_data['colesterol'],
-        'glicose': context.user_data['glicose'],
-        'fumante': context.user_data['fumante'],
-        'atividade física': context.user_data['atividadefisica'],
-    }
-
-    for k, v in respostas.items():
-        update.message.reply_text(f'{k}: {v}')
-
-    input_type_reply_keyboard = [['Sim', 'Não']]
-    update.message.reply_text(
-        'Confirma essas opções acima?',
-        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
-    )
-
-    return INPUT_FINISH

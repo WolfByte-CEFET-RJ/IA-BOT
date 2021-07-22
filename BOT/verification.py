@@ -27,7 +27,7 @@ def input_verification(update: Update, context: CallbackContext) -> int:
         
         context.user_data['atividadefisica'] = text
         
-        respostasArray = np.array([])
+        np.array = []
     
         respostas = {
             'idade': context.user_data['idade'],
@@ -45,9 +45,9 @@ def input_verification(update: Update, context: CallbackContext) -> int:
     
         for k, v in respostas.items():
             update.message.reply_text(f'{k}: {v}')
-            respostasArray.append(v)
+            np.array.append(v)
             
-        context.user_data['respostas'] = respostasArray
+        context.user_data['respostas'] = np.array
         
     
         input_type_reply_keyboard = [['Sim', 'Não']]

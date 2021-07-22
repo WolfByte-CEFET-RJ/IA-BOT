@@ -123,7 +123,10 @@ def input_finish(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(
         'Vlw flw',
     )
-    print(context.user_data['respostas'])
+    resposta = context.user_data['respostas']
+    
+    cardio_disease_predict(resposta)
+    print(cardio_disease_predict(resposta))
     
     return ConversationHandler.END
 
