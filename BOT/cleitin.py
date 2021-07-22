@@ -12,6 +12,7 @@ from telegram.ext import (
     CallbackContext,
 )
 
+from verification import input_verification
 from conversation_handler.cardio_handler import cardio_handler
 from bot_questions.questions import *
     
@@ -36,12 +37,12 @@ INPUT_ANSWER27, INPUT_ANSWER28, INPUT_ANSWER29, INPUT_ANSWER30, \
 INPUT_VERIFICATION, INPUT_FINISH = range(34) 
 
 def start(update: Update, _: CallbackContext) -> int:
-    disease_reply_keyboard = [['Câncer de mama', 'Doença Cardiovascular', 'Doença renal crônica']]
+    disease_reply_keyboard = [['Câncer de mama', 'Doença Cardiovascular', 'Doença Renal Crônica']]
 
     user = update.effective_user
 
     update.message.reply_text(
-        f'Olá {user.first_name}, meu nome é Cleitin do SUS. Eu sou capaz de'
+        f'Olá, {user.first_name}! Meu nome é Cleitin do SUS. Eu sou capaz de'
         'analisar as seguintes doenças:\n\n'
         'Câncer de mâma \n'
         'Doença cardiovascular \n'
@@ -94,6 +95,26 @@ def info_disease(update: Update, context: CallbackContext) -> int:
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
         
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+         update.message.reply_text(
+        'Para realizar que eu possa analisar a existência de uma doença '
+        'renal crônica, precisarei das seguinte informações: \n\n'
+        'a) Pressão sanguínea \n'
+        'b) Gravidade específica \n'
+        'c) Albumina \n'
+        'd) Açúcar \n'
+        'e) Hemácia \n'
+        'f) Ureia sanguínea \n'
+        'g) Creatina sérica \n'
+        'h) Sódio \n'
+        'i) Potássio \n'
+        'j) Hemoglobina \n'
+        'l) Contagem de glóbulos brancos\n'
+        'm) Contagem de glóbulos vermelhos\n'
+        'n) Hipertensão',
+        reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
+    )
+        
     
     return INPUT_ANSWER
 
@@ -102,6 +123,8 @@ def input_finish(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(
         'Vlw flw',
     )
+    print(context.user_data['respostas'])
+    
     return ConversationHandler.END
 
 

@@ -19,13 +19,18 @@ def input0(update: Update, context: CallbackContext) -> int:
     
     if(context.user_data['disease'] == "Câncer de mama"):
         update.message.reply_text(
-        'raio (média): ',
-    )
+        'Raio (média): ',
+        )
         
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         update.message.reply_text(
-        'Sua idade (apenas o número):',
-    )
+        'Sua idade (apenas o número): ',
+        )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        update.message.reply_text(
+        'Sua pressão sanguínea (Apenas o valor numérico): '        
+        )
     
     return INPUT_ANSWER1
 
@@ -37,15 +42,20 @@ def input1(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['raio_media'] = text 
        update.message.reply_text(
-       'textura  (média): ',
-    )
+       'Textura  (média): ',
+       )
         
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['idade'] = text
         update.message.reply_text(
         'Sua altura, valor em cm (Exemplo: 175 para um metro e setenta e cinco centímetros): ',
-    )
-
+        )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Bp'] = text
+        update.message.reply_text(
+        'Sua gravidade específica (Apenas o valor numérico): '        
+        )
     
     return INPUT_ANSWER2
 
@@ -55,15 +65,21 @@ def input2(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['textura_media'] = text 
        update.message.reply_text(
-       'perímetro (média): ',
-    )
+       'Perímetro (média): ',
+       )
        
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['altura'] = text
         update.message.reply_text(
         'Seu peso, apenas kilogramas (Exemplo: 78 para setenta e oito kilos):'
-    )
+        )
 
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Sg'] = text
+        update.message.reply_text(
+        'Sua albumina (Apenas o valor numérico):  '        
+        )
+        
     return INPUT_ANSWER3
 
 def input3(update: Update, context: CallbackContext) -> int:
@@ -72,8 +88,8 @@ def input3(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['perimetro_media'] = text 
        update.message.reply_text(
-       'área (média): ',
-    )
+       'Área (média): ',
+       )
    
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['peso'] = text 
@@ -81,7 +97,13 @@ def input3(update: Update, context: CallbackContext) -> int:
         update.message.reply_text(
         'Seu genero :',
         reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
-    )
+        )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Al'] = text
+        update.message.reply_text(
+        'Seu açúcar (Apenas o valor numérico): '        
+        )
 
     return INPUT_ANSWER4
 
@@ -93,14 +115,23 @@ def input4(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['area_media'] = text 
        update.message.reply_text(
-       'suavidade (média): ',
-    )
+       'Suavidade (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['genero'] = text 
         update.message.reply_text(
-            'Sua pressão arterial sistólica:',
+        'Sua pressão arterial sistólica:',
         )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Su'] = text
+        input_type_reply_keyboard = [['0.0', '1.0']]
+        update.message.reply_text(
+        'Suas hemácias: '  ,
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        )
+
 
     return INPUT_ANSWER5
 
@@ -112,16 +143,23 @@ def input5(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['suavidade_media'] = text 
        update.message.reply_text(
-       'compactação (média): ',
-    )
+       'Compactação (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         text = update.message.text
         context.user_data['sistolica'] = text
         update.message.reply_text(
-            'Sua pressão arterial diastólica:',
+        'Sua pressão arterial diastólica:',
+        )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Rbc'] = text
+        update.message.reply_text(
+        'Sua uréia sanguínea (Apenas o valor numérico): '        
         )
 
+        
     return INPUT_ANSWER6
 
 
@@ -132,16 +170,23 @@ def input6(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['compactacao_media'] = text 
        update.message.reply_text(
-       'concavidade (média): ',
-    )
+       'Concavidade (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['diastolica'] = text
         input_type_reply_keyboard = [['1', '2', '3']]
         update.message.reply_text(
-            'Seu colesterol (1: normal, 2: acima do normal, 3: muito acima do normal) :',
-            reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        'Seu colesterol (1: normal, 2: acima do normal, 3: muito acima do normal) :',
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Bu'] = text
+        update.message.reply_text(
+        'Sua creatina sérica (Apenas o valor numérico): '        
+        )
+
 
     return INPUT_ANSWER7
 
@@ -153,17 +198,24 @@ def input7(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['concavidade_media'] = text 
        update.message.reply_text(
-       'pontos_concavos  (média): ',
-    )
+       'Pontos Concavos  (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['colesterol'] = int(text)
     
         input_type_reply_keyboard = [['1', '2', '3']]
         update.message.reply_text(
-            'Seu glicose (1: normal, 2: acima do normal, 3: muito acima do normal) :',
-            reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        'Seu glicose (1: normal, 2: acima do normal, 3: muito acima do normal) :',
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Sc'] = text
+        update.message.reply_text(
+        'Seu sódio (Apenas o valor numérico): '        
+        )
+
 
     return INPUT_ANSWER8
 
@@ -175,17 +227,23 @@ def input8(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['pontos_concavos_media'] = text 
        update.message.reply_text(
-       'simetria  (média): ',
-    )
+       'Simetria  (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['glicose'] = int(text)
-    
         input_type_reply_keyboard = [['Sim', 'Não']]
         update.message.reply_text(
-            'Fumante?',
-            reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        'Fumante?',
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
+    
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Sod'] = text
+        update.message.reply_text(
+        'Seu potássio (Apenas o valor numérico): '        
+        )
+
 
     return INPUT_ANSWER9
 
@@ -197,17 +255,23 @@ def input9(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['simetria_media'] = text 
        update.message.reply_text(
-       'dimensão fractal (média): ',
-    )
+       'Dimensão fractal (média): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['fumante'] = text
-    
         input_type_reply_keyboard = [['Sim', 'Não']]
         update.message.reply_text(
-            'Ingestão de álcool?',
-            reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        'Ingestão de álcool?',
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
+        
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Pot'] = text
+        update.message.reply_text(
+        'Sua hemoglobina (Apenas o valor numérico): '        
+        )
+
 
     return INPUT_ANSWER10
 
@@ -217,18 +281,24 @@ def input10(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['fractal_media'] = text 
        update.message.reply_text(
-       'raio (erro padrão): ',
-    )
+       'Raio (erro padrão): ',
+       )
     
     elif(context.user_data['disease'] == "Doença Cardiovascular"):
         context.user_data['alcool'] = text 
     
         input_type_reply_keyboard = [['Sim', 'Não']]
         update.message.reply_text(
-            'Pratica atividades físicas? :',
-            reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        'Pratica atividades físicas? :',
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
         )
         return INPUT_FINISH
+    
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Hemo'] = text
+        update.message.reply_text(
+        'Contagem dos glóbulos brancos (Apenas o valor numérico): '        
+        )
 
     return INPUT_ANSWER11
 
@@ -238,8 +308,15 @@ def input11(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['raio_EP'] = text 
        update.message.reply_text(
-       'textura  (erro padrão): ',
-    )
+       'Textura  (erro padrão): ',
+       )
+       
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Wbcc'] = text
+        update.message.reply_text(
+        'Contagem dos glóbulos vermelhos (Apenas o valor numérico): '        
+        )
+
 
     return INPUT_ANSWER12
 
@@ -249,8 +326,18 @@ def input12(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['textura_EP'] = text 
        update.message.reply_text(
-       'perímetro   (erro padrão): ',
-    )
+       'Perímetro   (erro padrão): ',
+       )
+       
+    elif(context.user_data['disease'] == "Doença Renal Crônica"):
+        context.user_data['Rbcc'] = text
+        input_type_reply_keyboard = [['Sim', 'Não']],
+        update.message.reply_text(
+        'Você tem hipertensão?: ', 
+        reply_markup=ReplyKeyboardMarkup(input_type_reply_keyboard, one_time_keyboard=True),
+        )
+        return INPUT_FINISH
+
        
     return INPUT_ANSWER13
 
@@ -260,8 +347,9 @@ def input13(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['perimetro_EP'] = text 
        update.message.reply_text(
-       'área (erro padrão): ',
+       'Área (erro padrão): ',
     )
+       
 
     return INPUT_ANSWER14
 
@@ -271,7 +359,7 @@ def input14(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['area_EP'] = text 
        update.message.reply_text(
-       'suavidade (erro padrão): ',
+       'Suavidade (erro padrão): ',
     )
     
     return INPUT_ANSWER15
@@ -282,7 +370,7 @@ def input15(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['suavidade_EP'] = text 
        update.message.reply_text(
-       'compactação (erro padrão): ',
+       'Compactação (erro padrão): ',
     )
 
     return INPUT_ANSWER16
@@ -293,7 +381,7 @@ def input16(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['compactacao_EP'] = text 
        update.message.reply_text(
-       'concavidade (erro padrão): ',
+       'Concavidade (erro padrão): ',
     )
 
     return INPUT_ANSWER17
@@ -304,7 +392,7 @@ def input17(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['concavidade_EP'] = text 
        update.message.reply_text(
-       'pontos côncavos (erro padrão): ',
+       'Pontos côncavos (erro padrão): ',
     )
 
     return INPUT_ANSWER18
@@ -315,7 +403,7 @@ def input18(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['pontos_concavos_EP'] = text 
        update.message.reply_text(
-       'simetria (erro padrão): ',
+       'Simetria (erro padrão): ',
     )
 
     return INPUT_ANSWER19
@@ -326,7 +414,7 @@ def input19(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['simetria_EP'] = text 
        update.message.reply_text(
-       'dimensão fractual (erro padrão): ',
+       'Dimensão fractual (erro padrão): ',
     )
 
     return INPUT_ANSWER20
@@ -337,7 +425,7 @@ def input20(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['fractual_EP'] = text 
        update.message.reply_text(
-       'raio (worst): ',
+       'Raio (worst): ',
     )
 
     return INPUT_ANSWER21
@@ -348,7 +436,7 @@ def input21(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['raio_wst'] = text 
        update.message.reply_text(
-       'textura  (worst): ',
+       'Textura  (worst): ',
     )
 
     return INPUT_ANSWER22
@@ -359,7 +447,7 @@ def input22(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['textura_wst'] = text 
        update.message.reply_text(
-       'perímetro   (worst): ',
+       'Perímetro   (worst): ',
     )
  
     return INPUT_ANSWER23
@@ -370,7 +458,7 @@ def input23(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['perimetro_wst'] = text 
        update.message.reply_text(
-       'área    (worst): ',
+       'Àrea    (worst): ',
     )
 
     return INPUT_ANSWER24
@@ -381,7 +469,7 @@ def input24(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['area_wst'] = text 
        update.message.reply_text(
-       'suavidade (worst): ',
+       'Suavidade (worst): ',
     )
 
     return INPUT_ANSWER25
@@ -392,7 +480,7 @@ def input25(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['suavidade_wst'] = text 
        update.message.reply_text(
-       'compactação  (worst): ',
+       'Compactação  (worst): ',
     )
 
     return INPUT_ANSWER26
@@ -403,7 +491,7 @@ def input26(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['compactacao_wst'] = text 
        update.message.reply_text(
-       'concavidade (worst): ',
+       'Concavidade (worst): ',
     )
 
     return INPUT_ANSWER27
@@ -414,7 +502,7 @@ def input27(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['concavidade_wst'] = text 
        update.message.reply_text(
-       'pontos côncavos (worst): ',
+       'Pontos côncavos (worst): ',
     )
 
     return INPUT_ANSWER28
@@ -425,7 +513,7 @@ def input28(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['pontos_concavos_wst'] = text 
        update.message.reply_text(
-       'simetria (worst): ',
+       'Simetria (worst): ',
     )
 
     return INPUT_ANSWER29
@@ -436,7 +524,7 @@ def input29(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['pontos_concavos_wst'] = text 
        update.message.reply_text(
-       'dimensão fractal  (worst): ',
+       'Dimensão fractal  (worst): ',
     )
 
     return INPUT_ANSWER30
@@ -447,7 +535,7 @@ def input30(update: Update, context: CallbackContext) -> int:
     if(context.user_data['disease'] == "Câncer de mama"):
        context.user_data['pontos_concavos_wst'] = text 
        update.message.reply_text(
-       'simetria (worst): ',
+       'Simetria (worst): ',
     )
 
     #return INPUT_VERIFICATION
