@@ -6,7 +6,7 @@ def sigmoid(x):
 def breast_cancer_predict(entrada):
     #Mude para seu path
     path_pesos = "C:\projetos\IA-BOT\Pesos/breast_cancer"
-    path_bias = "C:\projetos\IA-BOT\Bias/breast_cancer"
+    path_bias = "C:\projetos\IA-BOT\Biases/breast_cancer"
     
     #Lendo pesos e biases
     w_layer1 = np.genfromtxt(path_pesos + '/pesos1.txt', delimiter= ', ')
@@ -19,6 +19,7 @@ def breast_cancer_predict(entrada):
     b_layer3 = np.genfromtxt(path_bias + '/bias3.txt', delimiter= ', ')
     b_layer4 = np.genfromtxt(path_bias + '/bias4.txt', delimiter= ', ')
     
+    entrada = (entrada-entrada.min())/(entrada.max()-entrada.min())
     
     #calculo das previsoes
     camada_oculta1 = sigmoid(np.dot(entrada, w_layer1) + b_layer1)
@@ -31,11 +32,9 @@ def breast_cancer_predict(entrada):
 
 
 def cardio_disease_predict(entrada):
-    #Mude para seu path
     path_pesos = "C:\projetos\IA-BOT\Pesos/cardiovascular_disease"
-    path_bias = "C:\projetos\IA-BOT\Bias/cardiovascular_disease"
+    path_bias = "C:\projetos\IA-BOT\Biases/cardiovascular_disease"
     
-    #Lendo pesos e biases
     w_layer1 = np.genfromtxt(path_pesos + '/pesos1.txt', delimiter= ', ')
     w_layer2 = np.genfromtxt(path_pesos + '/pesos2.txt', delimiter= ', ')
     w_layer3 = np.genfromtxt(path_pesos + '/pesos3.txt', delimiter= ', ')
@@ -46,6 +45,7 @@ def cardio_disease_predict(entrada):
     b_layer3 = np.genfromtxt(path_bias + '/bias3.txt', delimiter= ', ')
     b_layer4 = np.genfromtxt(path_bias + '/bias4.txt', delimiter= ', ')
     
+    entrada = (entrada-entrada.min())/(entrada.max()-entrada.min())     
     
     #calculo das previsoes
     camada_oculta1 = sigmoid(np.dot(entrada, w_layer1) + b_layer1)
@@ -54,6 +54,7 @@ def cardio_disease_predict(entrada):
     camada_saida = sigmoid(np.dot(camada_oculta3, w_layer4) + b_layer4)
     
     saida = np.where(camada_saida >= 0.8,1,0)
+
     return saida
 
 

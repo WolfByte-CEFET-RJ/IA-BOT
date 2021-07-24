@@ -6,7 +6,7 @@ from telegram.ext import (
 )
 
  
-def cardio_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
+def conversation_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
                    input0,INPUT_ANSWER1,input1,INPUT_ANSWER2,
                    input2,INPUT_ANSWER3,input3,INPUT_ANSWER4,
                    input4,INPUT_ANSWER5,input5,INPUT_ANSWER6,
@@ -21,8 +21,8 @@ def cardio_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
                    input22,INPUT_ANSWER23,input23,INPUT_ANSWER24,
                    input24,INPUT_ANSWER25,input25,INPUT_ANSWER26,
                    input26,INPUT_ANSWER27,input27,INPUT_ANSWER28,
-                   input28,INPUT_ANSWER29,input29,INPUT_ANSWER30,
-                   input30,INPUT_VERIFICATION,input_verification,
+                   input28,INPUT_ANSWER29,input29,
+                   INPUT_VERIFICATION,input_verification,
                    INPUT_FINISH,input_finish,cancel_cmd):
     
     conv_handler = ConversationHandler(
@@ -179,13 +179,6 @@ def cardio_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
                     Filters.text & ~Filters.command, input29
                 )
             ],
-            
-            INPUT_ANSWER30: [
-                MessageHandler(
-                    Filters.text & ~Filters.command, input30
-                )
-            ],
-
             INPUT_VERIFICATION: [
                 MessageHandler(
                     Filters.text & ~Filters.command, input_verification

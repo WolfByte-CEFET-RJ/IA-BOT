@@ -11,9 +11,8 @@ from telegram.ext import (
     ConversationHandler,
     CallbackContext,
 )
-
-from verification import input_verification
-from conversation_handler.cardio_handler import cardio_handler
+from bot_questions.verification import input_verification
+from conversation_handler import conversation_handler
 from bot_questions.questions import *
     
 
@@ -33,8 +32,8 @@ INPUT_ANSWER11, INPUT_ANSWER12, INPUT_ANSWER13, INPUT_ANSWER14, \
 INPUT_ANSWER15, INPUT_ANSWER16, INPUT_ANSWER17, INPUT_ANSWER18, \
 INPUT_ANSWER19, INPUT_ANSWER20, INPUT_ANSWER21, INPUT_ANSWER22, \
 INPUT_ANSWER23, INPUT_ANSWER24, INPUT_ANSWER25, INPUT_ANSWER26, \
-INPUT_ANSWER27, INPUT_ANSWER28, INPUT_ANSWER29, INPUT_ANSWER30, \
-INPUT_VERIFICATION, INPUT_FINISH = range(34) 
+INPUT_ANSWER27, INPUT_ANSWER28, INPUT_ANSWER29, \
+INPUT_VERIFICATION, INPUT_FINISH = range(33) 
 
 def start(update: Update, _: CallbackContext) -> int:
     disease_reply_keyboard = [['Câncer de mama', 'Doença Cardiovascular', 'Doença Renal Crônica']]
@@ -120,13 +119,24 @@ def info_disease(update: Update, context: CallbackContext) -> int:
 
 def input_finish(update: Update, context: CallbackContext) -> int:
     
-    update.message.reply_text(
-        'Vlw flw',
-    )
-    resposta = context.user_data['respostas']
+    inputs = context.user_data['respostas']
     
-    cardio_disease_predict(resposta)
-    print(cardio_disease_predict(resposta))
+    print(inputs)
+    
+    if(context.user_data['disease'] == "Câncer de mama"):
+        respostaRede = breast_cancer_predict(inputs)
+    
+    elif(context.user_data['disease'] == "Doença Cardiovascular"):
+        respostaRede = cardio_disease_predict(inputs)
+    
+    if(respostaRede == 1):
+         update.message.reply_text(
+        'Possui a doença'
+    ) 
+    else:
+        update.message.reply_text(
+        'Não possui a doença'
+    )
     
     return ConversationHandler.END
 
@@ -157,7 +167,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("help", help_cmd))
 
     # Add conversation handler with states
-    conv_handler = cardio_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
+    conv_handler = conversation_handler(start,SELECT_DISEASE,info_disease,INPUT_ANSWER,
                    input0,INPUT_ANSWER1,input1,INPUT_ANSWER2,
                    input2,INPUT_ANSWER3,input3,INPUT_ANSWER4,
                    input4,INPUT_ANSWER5,input5,INPUT_ANSWER6,
@@ -172,8 +182,8 @@ def main() -> None:
                    input22,INPUT_ANSWER23,input23,INPUT_ANSWER24,
                    input24,INPUT_ANSWER25,input25,INPUT_ANSWER26,
                    input26,INPUT_ANSWER27,input27,INPUT_ANSWER28,
-                   input28,INPUT_ANSWER29,input29,INPUT_ANSWER30,
-                   input30,INPUT_VERIFICATION,input_verification,
+                   input28,INPUT_ANSWER29,input29,
+                   INPUT_VERIFICATION,input_verification,
                    INPUT_FINISH,input_finish,cancel_cmd)
     dispatcher.add_handler(conv_handler)
 
