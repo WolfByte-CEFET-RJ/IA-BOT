@@ -183,10 +183,10 @@ if resposta == "S":
     np.savetxt(path + "Pesos\\chronic_kidney\\pesos3.txt", inp3.weights, delimiter=", ")
     np.savetxt(path + "Pesos\\chronic_kidney\\pesos4.txt", inp4.weights, delimiter=", ")
     
-    np.savetxt(path + "Bias\\chronic_kidney\\bias1.txt", inp1.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\chronic_kidney\\bias2.txt", inp2.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\chronic_kidney\\bias3.txt", inp3.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\chronic_kidney\\bias4.txt", inp4.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\chronic_kidney\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\chronic_kidney\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\chronic_kidney\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\chronic_kidney\\bias4.txt", inp4.biases, delimiter=", ")
     print("Dump dos pesos e bias concluido")
     
 else: 

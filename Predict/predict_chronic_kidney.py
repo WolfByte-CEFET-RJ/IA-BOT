@@ -3,7 +3,7 @@ import pandas as pd
 
 #Mude para seu path
 path_pesos = "C:\projetos\IA-BOT\Pesos\chronic_kidney"
-path_bias = "C:\projetos\IA-BOT\Bias\chronic_kidney"
+path_bias = "C:\projetos\IA-BOT\Biases\chronic_kidney"
 
 entradas = pd.read_csv('../Dataset/chronic_kidney/chronic_kidney.csv')
 entradas = entradas.iloc[:,0:13].values

@@ -22,7 +22,7 @@ def input_verification(update: Update, context: CallbackContext) -> int:
     respostasList = []
     
     if(context.user_data['disease'] == "Câncer de mama"):
-        context.user_data['fractal_wst'] = int(text)
+        context.user_data['fractal_wst'] = float(text)
         respostasObj = {
             'raio_media': context.user_data['raio_media'],
             'textura_media': context.user_data['textura_media'],

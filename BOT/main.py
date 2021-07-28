@@ -120,7 +120,7 @@ def info_disease(update: Update, context: CallbackContext) -> int:
 def input_finish(update: Update, context: CallbackContext) -> int:
     
     inputs = context.user_data['respostas']
-    
+    inputs = np.array(inputs)
     print(inputs)
     
     if(context.user_data['disease'] == "Câncer de mama"):

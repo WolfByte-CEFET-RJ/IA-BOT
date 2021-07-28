@@ -26,7 +26,7 @@ base = pd.read_csv("../Dataset/cardiovascular_disease/cardiovascular.txt")
 
 base = (base-base.min())/(base.max()-base.min())
 
-entradas = base.iloc[:1000,1:12].values
+entradas = base.iloc[6,1:12].values
 dataset = np.array(entradas)
   
 

@@ -1,12 +1,15 @@
 import numpy as np
 import pandas as pd
+from minmax import min,max
 
 #Mude para seu path
 path_pesos = "C:\projetos\IA-BOT\Pesos/breast_cancer"
-path_bias = "C:\projetos\IA-BOT\Bias/breast_cancer"
+path_bias = "C:\projetos\IA-BOT\Biases/breast_cancer"
 
 entradas = pd.read_csv('../Dataset/breast_cancer/entradas_breast.csv')
-entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
+entradas = entradas.iloc[5,:]
+#entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
+entradas = (entradas-min)/(max-min)
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
