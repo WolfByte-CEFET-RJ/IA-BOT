@@ -36,16 +36,13 @@ INPUT_ANSWER27, INPUT_ANSWER28, INPUT_ANSWER29, \
 INPUT_VERIFICATION, INPUT_FINISH = range(33) 
 
 def start(update: Update, _: CallbackContext) -> int:
-    disease_reply_keyboard = [['Câncer de mama', 'Doença Cardiovascular', 'Doença Renal Crônica']]
-
     user = update.effective_user
+    disease_reply_keyboard = [['OK!']]
 
     update.message.reply_text(
-        f'Olá, {user.first_name}! Meu nome é Cleitin do SUS. Eu sou capaz de'
-        'analisar as seguintes doenças:\n\n'
-        'Câncer de mâma \n'
-        'Doença cardiovascular \n'
-        'Doença renal crônica \n'
+        f'Olá, {user.first_name}! Bem vindo ao IEEE Health Care. Eu sou capaz de '
+        'realizar um diagnóstico do câncer de mâma, o que irá ajuda-lo a decidir o '
+        'diagnótico final do paciente \n\n'
         'Envie /cancel se quiser parar de falar comigo.',
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
@@ -55,8 +52,8 @@ def start(update: Update, _: CallbackContext) -> int:
 def info_disease(update: Update, context: CallbackContext) -> int:
     disease_reply_keyboard = [['Entendi']]
     
-    text = update.message.text
-    context.user_data['disease'] = text
+    #mudar para text quando outras doenças estiverem sendo usadas
+    context.user_data['disease'] = "Câncer de mama" 
     
     if(context.user_data['disease'] == "Câncer de mama"):
         update.message.reply_text(
@@ -72,7 +69,8 @@ def info_disease(update: Update, context: CallbackContext) -> int:
         'g) concavidade(severidade das porções côncavas do contorno) \n'
         'h) pontos côncavos(número de porções côncavas do contorno) \n'
         'i) simetria \n'
-        'j) dimensão fractal("aproximação até a costa" - 1) \n',
+        'j) dimensão fractal("aproximação até a costa" - 1) \n\n'
+        'No fim, serei capaz de dizer se o tumor é maligno ou benigno',
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
         
@@ -118,25 +116,36 @@ def info_disease(update: Update, context: CallbackContext) -> int:
     return INPUT_ANSWER
 
 def input_finish(update: Update, context: CallbackContext) -> int:
+    text = update.message.text
+    inputs = context.user_data['inputsRede']
+    context.user_data['confirmacao'] = text
     
-    inputs = context.user_data['respostas']
-    inputs = np.array(inputs)
-    print(inputs)
-    
-    if(context.user_data['disease'] == "Câncer de mama"):
-        respostaRede = breast_cancer_predict(inputs)
-    
-    elif(context.user_data['disease'] == "Doença Cardiovascular"):
-        respostaRede = cardio_disease_predict(inputs)
-    
-    if(respostaRede == 1):
-         update.message.reply_text(
-        'Possui a doença'
-    ) 
+    if(context.user_data['confirmacao'] == "Sim"):
+        inputs = np.array(inputs)
+        
+        if(context.user_data['disease'] == "Câncer de mama"):
+            respostaRede = breast_cancer_predict(inputs)
+        
+        elif(context.user_data['disease'] == "Doença Cardiovascular"):
+            respostaRede = cardio_disease_predict(inputs)
+        
+        if(respostaRede == 1):
+             update.message.reply_text(
+            'Segundo os meus cálculos o seu paciente possui um tumor maligno \n'
+            'A minha taxa de acerto é de 92%'
+        ) 
+        else:
+            update.message.reply_text(
+            'Segundo os meus cálculos o seu paciente possui um tumor benigno \n'
+            'A minha taxa de acerto é de 92%'
+        )
     else:
         update.message.reply_text(
-        'Não possui a doença'
-    )
+            'Digite /start para passar os parametros novamente'
+        )
+        
+    
+    
     
     return ConversationHandler.END
 
@@ -153,7 +162,7 @@ def cancel_cmd(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user
     logger.info("User %s canceled the conversation.", user.first_name)
     update.message.reply_text(
-        'Asta la vista, baby.', reply_markup=ReplyKeyboardRemove()
+        'Obrigado por utilizar o serviço IEEE Health Care, até mais!', reply_markup=ReplyKeyboardRemove()
     )
 
     return ConversationHandler.END

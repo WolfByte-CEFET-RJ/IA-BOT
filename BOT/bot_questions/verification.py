@@ -82,7 +82,7 @@ def input_verification(update: Update, context: CallbackContext) -> int:
         update.message.reply_text(f'{k}: {v}')
         respostasList.append(v)
         
-    context.user_data['respostas'] = np.array(respostasList)
+    context.user_data['inputsRede'] = np.array(respostasList)
 
     input_type_reply_keyboard = [['Sim', 'Não']]
     update.message.reply_text(

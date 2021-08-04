@@ -54,34 +54,32 @@ def test_predict(teste,teste_saidas,pesos1,pesos2,pesos3,pesos4,bias1,bias2,bias
 base = pd.read_csv("../../Dataset/cardiovascular_disease/cardiovascular.txt")
 
 #normalizando os dados
-base = (base-base.min())/(base.max()-base.min())
-
-base.describe()
+base = (base-base.min())/(base.max()-base.min())    
 
 #separando o database em entrada e saida
-entradas = base.iloc[:1000,1:12].values
-saidas = base.iloc[:1000, 11:12].values
+entradas = base.iloc[:,1:12].values
+saidas = base.iloc[:, 11:12].values
 
 #transformando em array do numpy
 dataset = np.array(entradas)
 dataset_saidas = np.array(saidas)
 
 #separando entre treino e teste
-train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/5)
+train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas,test_size=1/4)
 
 #parametros
 qtt_treino = len(train)
 qtt_test = len(test)
 epochs = 1000
-learning_rate = 0.5
+learning_rate = 0.01
 erros = []
 erros2 = []
 
 #criando as camadas
 inp1 = Layer_Dense(11, 6)
 inp2 = Layer_Dense(6, 6)
-inp3 = Layer_Dense(6, 3)
-inp4 = Layer_Dense(3,1)
+inp3 = Layer_Dense(6, 5)
+inp4 = Layer_Dense(5,1)
 
 #calculo das previsoes
 for epocas in range(epochs + 1):
@@ -161,6 +159,7 @@ w_layer1, w_layer2, w_layer3, w_layer4, b_layer1, b_layer2, b_layer3, b_layer4 =
 saidas_real = dataset_saidas
 saidas = predict(dataset,"sigmoid")
 saidas = np.where(saidas >= 0.8,1,0)
+
 
 acertos = 0
 for y1,y2 in zip(saidas,saidas_real):
