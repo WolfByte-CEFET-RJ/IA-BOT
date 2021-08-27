@@ -70,8 +70,8 @@ train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas
 #parametros
 qtt_treino = len(train)
 qtt_test = len(test)
-epochs = 1000
-learning_rate = 0.01
+epochs = 1
+learning_rate = 0.5
 erros = []
 erros2 = []
 
@@ -158,7 +158,7 @@ w_layer1, w_layer2, w_layer3, w_layer4, b_layer1, b_layer2, b_layer3, b_layer4 =
 
 saidas_real = dataset_saidas
 saidas = predict(dataset,"sigmoid")
-saidas = np.where(saidas >= 0.8,1,0)
+saidas = np.where(saidas >= 0.7,1,0)
 
 
 acertos = 0

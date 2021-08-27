@@ -1,15 +1,14 @@
 import numpy as np
 import pandas as pd
-from minmax import min,max
 
 #Mude para seu path
 path_pesos = "C:\projetos\IA-BOT\Pesos/breast_cancer"
 path_bias = "C:\projetos\IA-BOT\Biases/breast_cancer"
 
 entradas = pd.read_csv('../Dataset/breast_cancer/entradas_breast.csv')
-entradas = entradas.iloc[5,:]
-#entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
-entradas = (entradas-min)/(max-min)
+entradas = (entradas-entradas.min())/(entradas.max()-entradas.min())
+saidas_real = pd.read_csv('../Dataset/breast_cancer/saidas_breast.csv')
+saidas_real = np.array(saidas_real)
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
@@ -32,9 +31,8 @@ camada_oculta2 = sigmoid(np.dot(camada_oculta1, w_layer2) + b_layer2)
 camada_oculta3 = sigmoid(np.dot(camada_oculta2, w_layer3) + b_layer3)
 camada_saida = sigmoid(np.dot(camada_oculta3, w_layer4) + b_layer4)
 
-saidas = np.where(camada_saida >= 0.8,1,0)
+saidas = np.where(camada_saida >= 0.9,1,0)
 
 
-    
 
 

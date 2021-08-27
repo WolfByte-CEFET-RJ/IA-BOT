@@ -41,7 +41,7 @@ def start(update: Update, _: CallbackContext) -> int:
 
     update.message.reply_text(
         f'Olá, {user.first_name}! Bem vindo ao IEEE Health Care. Eu sou capaz de '
-        'realizar um diagnóstico do câncer de mâma, o que irá ajuda-lo a decidir o '
+        'realizar o diagnóstico do câncer de mâma, o que irá ajuda-lo a decidir o '
         'diagnótico final do paciente \n\n'
         'Envie /cancel se quiser parar de falar comigo.',
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
@@ -57,9 +57,8 @@ def info_disease(update: Update, context: CallbackContext) -> int:
     
     if(context.user_data['disease'] == "Câncer de mama"):
         update.message.reply_text(
-        'Para realizar a previsão sobre o câncer de mâma, precisarei de algumas '
-        'informações que descrevem as caracteristicas dos núcleos celulares ' +
-        'presentes nas imagens de diagnóstico. \n\n' +
+        'Para realizar a previsão sobre o câncer de mâma, precisarei de algumas'
+        'informações que descrevem as caracteristicas do tecido do possível tumor\n\n ' +
         'a) raio (média das distâncias do centro até pontos do perímetro) \n'
         'b) textura (desvio padrão dos valores da escala de cinza) \n'
         'c) perímetro \n'
@@ -70,6 +69,9 @@ def info_disease(update: Update, context: CallbackContext) -> int:
         'h) pontos côncavos(número de porções côncavas do contorno) \n'
         'i) simetria \n'
         'j) dimensão fractal("aproximação até a costa" - 1) \n\n'
+        
+        'Para cada informação, precisarei da média, do erro padrão e da média \n' +
+        'dos 3 maiores valores (worst) \n\n'
         'No fim, serei capaz de dizer se o tumor é maligno ou benigno',
         reply_markup=ReplyKeyboardMarkup(disease_reply_keyboard, one_time_keyboard=True),
     )
@@ -129,7 +131,7 @@ def input_finish(update: Update, context: CallbackContext) -> int:
         elif(context.user_data['disease'] == "Doença Cardiovascular"):
             respostaRede = cardio_disease_predict(inputs)
         
-        if(respostaRede == 1):
+        if(respostaRede == 0):
              update.message.reply_text(
             'Segundo os meus cálculos o seu paciente possui um tumor maligno \n'
             'A minha taxa de acerto é de 92%'
@@ -137,7 +139,7 @@ def input_finish(update: Update, context: CallbackContext) -> int:
         else:
             update.message.reply_text(
             'Segundo os meus cálculos o seu paciente possui um tumor benigno \n'
-            'A minha taxa de acerto é de 92%'
+            'A minha taxa de acerto é de 95.2%'
         )
     else:
         update.message.reply_text(

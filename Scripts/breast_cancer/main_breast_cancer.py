@@ -26,7 +26,7 @@ def relu(x):
 #classe para criar uma camada
 class Layer_Dense():
     def __init__(self, n_inputs, n_neurons):
-        self.weights = 2 * np.random.random((n_inputs, n_neurons)) -1
+        self.weights = 2 * np.random.random((n_inputs, n_neurons)) - 1
         self.biases = np.zeros((1, n_neurons))
 
     def forward(self, inputs):
@@ -77,17 +77,17 @@ train, test, train_saidas, test_saidas = train_test_split(dataset,dataset_saidas
 #parametros
 qtt_treino = len(train)
 qtt_test = len(test)
-epochs = 1500
-learning_rate = 1
+epochs = 10000
+learning_rate = 0.5
 erros = []
 erros2 = []
 
 
 #criando as camadas
-inp1 = Layer_Dense(30, 16)
-inp2 = Layer_Dense(16, 16)
-inp3 = Layer_Dense(16,8)
-inp4 = Layer_Dense(8, 1)
+inp1 = Layer_Dense(30, 15)
+inp2 = Layer_Dense(15, 30)
+inp3 = Layer_Dense(30,10)
+inp4 = Layer_Dense(10, 1)
 
 
 #calculo das previsoes
@@ -114,9 +114,9 @@ for epocas in range(epochs + 1):
     #backpropagation
     derivada_saida = bce(train_saidas,camada_saida,qtt_treino,True)
     
-    testedoido = derivada_sigmoid(inp4.output)
+    derivada = derivada_sigmoid(inp4.output)
     
-    dinp4 = testedoido * derivada_saida # dy =  da(y) * df(y')
+    dinp4 = derivada * derivada_saida # dy =  da(y) * df(y')
     derivada_oculta3 = np.dot(dinp4,inp4.weights.T) # dx = w.T * dy 
     d_pesos4 = np.dot(dinp4.T,camada_oculta3) # dw = x * dy.T
     d_pesos4 +=  (1.0/train_saidas.shape[0] * inp4.weights).T
@@ -176,7 +176,7 @@ w_layer1, w_layer2, w_layer3, w_layer4, b_layer1, b_layer2, b_layer3, b_layer4 =
 
 saidas_real = dataset_saidas
 saidas = predict(dataset,"sigmoid")
-saidas = np.where(saidas >= 0.8,1,0)
+saidas = np.where(saidas >= 0.9,1,0)
 
 acertos = 0
 for y1,y2 in zip(saidas,saidas_real):
@@ -196,10 +196,10 @@ if resposta == "S":
     np.savetxt(path + "Pesos\\breast_cancer\\pesos3.txt", inp3.weights, delimiter=", ")
     np.savetxt(path + "Pesos\\breast_cancer\\pesos4.txt", inp4.weights, delimiter=", ")
     
-    np.savetxt(path + "Bias\\breast_cancer\\bias1.txt", inp1.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\breast_cancer\\bias2.txt", inp2.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\breast_cancer\\bias3.txt", inp3.biases, delimiter=", ")
-    np.savetxt(path + "Bias\\breast_cancer\\bias4.txt", inp4.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\breast_cancer\\bias1.txt", inp1.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\breast_cancer\\bias2.txt", inp2.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\breast_cancer\\bias3.txt", inp3.biases, delimiter=", ")
+    np.savetxt(path + "Biases\\breast_cancer\\bias4.txt", inp4.biases, delimiter=", ")
     print("Dump dos pesos e bias concluido")
     
 else: 
